@@ -127,7 +127,7 @@ HPRC.pwr.fp.test <- function(ntaxa, oddrate){
                     plot)
     # interested in the number of tests that return a significant result when none 
     # are supposed to
-    if(i == 1){
+    if(oddrate == .1){
       rap$`p-values` < .05/8
     }else{
       # only interested in the times it returns a significant result
