@@ -44,7 +44,9 @@
 #     # repeated tests for each 
 HPRC.pwr.fp.test <- function(ntaxa, oddrate){
   ##### PARAMS #####
-  install.packages(c("phytools","diversitree","geiger",'doSNOW'))
+  install.packages("phytools")
+  install.packages("diversitree")
+  install.packages("geiger")
   library(R.utils) 
   library(doSNOW)
   library(foreach)
@@ -72,7 +74,8 @@ HPRC.pwr.fp.test <- function(ntaxa, oddrate){
   ##### PARAMS #####
   opts <- list(preschedule=FALSE)
   sig.tests <- foreach(h = 1:smp.size, .options.multicore=opts, .combine = 'c') %dopar% {
-    start <- Sys.time()
+    # ~9 hr
+    # start <- Sys.time()
     # creating a random tree
     tree <- trees(pars=c(1,.1), type="bd", max.taxa=ntaxa)[[1]]
     tree$edge.length <- tree$edge.length/max(branching.times(tree))
@@ -134,7 +137,7 @@ HPRC.pwr.fp.test <- function(ntaxa, oddrate){
       # in the type of transition with the oddrate
       rap$`p-values`[[3]] < .05
     }
-    end <- Sys.time()
+    # end <- Sys.time()
   }
   sig.tests <- unlist(sig.tests)
   final.result <- sum(sig.tests) / smp.size
