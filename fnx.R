@@ -25,12 +25,12 @@ TestCorr <- function(tree,
                      TO = NULL){
   
   # validation testing
-  if(!h1 %in% c("greater", "twotail", "lesser")){stop("h1 should be: greater, twotail, or lesser indicating your hypothesis.")}
-  if(!nul.iter == round(nul.iter)){stop('nul.iter should be an integer.')}
-  if(!stoc.iter == round(stoc.iter)){stop('stoc.iter should be an integer.')}
-  if(!message %in% c(T, F)){stop("Message should be true or false.")}
-  if(!plot %in% c(T,F)){stop('Plot must be true or false.')}
-  if(!statistic %in% c('mean', 'min')){stop('Statistic should be mean or min for the choice for the time between transitions.')}
+  # if(!h1 %in% c("greater", "twotail", "lesser")){stop("h1 should be: greater, twotail, or lesser indicating your hypothesis.")}
+  # if(!nul.iter == round(nul.iter)){stop('nul.iter should be an integer.')}
+  # if(!stoc.iter == round(stoc.iter)){stop('stoc.iter should be an integer.')}
+  # if(!message %in% c(T, F)){stop("Message should be true or false.")}
+  # if(!plot %in% c(T,F)){stop('Plot must be true or false.')}
+  # if(!statistic %in% c('mean', 'min')){stop('Statistic should be mean or min for the choice for the time between transitions.')}
   
   
   if(is.null(TO)){

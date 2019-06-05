@@ -1,62 +1,20 @@
-# ##### PARAMS #####
-# install.packages(c("phytools","diversitree","geiger",'doSNOW'))
-# # install.packages("Rmpi")
-# # install.packages("doMPI", dependencies=TRUE)
-# #  library(doMPI)
-# library(R.utils) 
-# library(doSNOW)
-# library(foreach)
-# cl<-makeCluster(3)
-# on.exit(stopCluster(cl))
-# library(phytools)
-# library(diversitree)
-# library(geiger)
-# # library(doMC)
-# library(profvis)
-# # registerDoMC(10)
-# source("fnx.R")
-# 
-# statistic = "mean"
-# # statistic = "min"
-# nul.model = "ind"
-# obs.model = "dep" # not supported
-# h1 = "greater"
-# # h1 = "lesser"
-# # h1 = 'twotail'
-# nul.iter = 100 # number of null data points desired
-# stoc.iter = 20 # number of stochastic maps per data point desired
-# message = T
-# plot = T
-# TO <- NULL
-# ##### PARAMS #####
-# # setting the rate that is varied. .1 == no correlation
-# higher values == stronger correlation
-# oddrate <- seq(from=.1, to=1, length.out=3)
-# different tree sizes
-# ntaxa <- c(50, 100, 200)
 
-# smp.size <- 100
-# final.result <- matrix(,length(ntaxa), length(oddrate))
-
-# for(j in 1:length(ntaxa)){
-#   # different rates 
-#   for(i in 1:length(oddrate)){
-#     # repeated tests for each 
 HPRC.pwr.fp.test <- function(ntaxa, oddrate){
   ##### PARAMS #####
-  install.packages("phytools")
-  install.packages("diversitree")
-  install.packages("geiger")
+  #install.packages("phytools")
+  # nstall.packages("diversitree")
+  # install.packages("geiger")
   library(R.utils) 
   library(doSNOW)
   library(foreach)
-  cl<-makeCluster(28)
+  cl<-makeCluster(1, type="SOCK")
+  registerDoSNOW(cl)
   on.exit(stopCluster(cl))
   library(phytools)
   library(diversitree)
   library(geiger)
   library(profvis)
-  source("fnx.R")
+  # source("fnx.R")
   
   statistic = "mean"
   # statistic = "min"
@@ -65,15 +23,17 @@ HPRC.pwr.fp.test <- function(ntaxa, oddrate){
   h1 = "greater"
   # h1 = "lesser"
   # h1 = 'twotail'
-  nul.iter = 100 # number of null data points desired
-  stoc.iter = 20 # number of stochastic maps per data point desired
+  nul.iter = 3 #100 # number of null data points desired
+  stoc.iter = 3 #20 # number of stochastic maps per data point desired
   message = T
   plot = T
   TO <- NULL
-  smp.size <- 100
+  smp.size <- 4 #100
   ##### PARAMS #####
   opts <- list(preschedule=FALSE)
-  sig.tests <- foreach(h = 1:smp.size, .options.multicore=opts, .combine = 'c') %dopar% {
+  sig.tests <- foreach(h = 1:smp.size, .options.multicore=opts,
+                       .combine = 'c', .packages=c("phytools","diversitree","geiger",'R.utils')) %dopar% {
+    source("fnx.R", local = TRUE)
     # ~9 hr
     # start <- Sys.time()
     # creating a random tree
